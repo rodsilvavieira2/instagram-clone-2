@@ -1,15 +1,10 @@
 /* eslint-disable no-unused-expressions */
-import { Post } from "../../@types";
+import { Pagination, Post } from "../../@types";
 import { baseApi } from "./base";
 
 type GetPostsResponse = Post[];
 type GetPostsParams = {
   page?: number;
-};
-
-type Pagination<T> = {
-  haveMore: boolean;
-  data: T;
 };
 
 type ToggleLikeParams = { postID: string; userID: string };

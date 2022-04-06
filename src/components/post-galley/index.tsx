@@ -1,4 +1,9 @@
-import { CSSProperties, useState } from "react";
+import {
+  CSSProperties,
+  forwardRef,
+  ForwardRefRenderFunction,
+  useState,
+} from "react";
 
 import { PublicationStatus } from "./publication-status";
 import { Container, Image, GalleyIcon } from "./styles";
@@ -12,14 +17,17 @@ type PostGalleryProps = {
   className?: string;
 };
 
-export function PostGallery({
-  commentsCount,
-  featuredPhotoUrl,
-  photosCount,
-  likesCount,
-  style,
-  className,
-}: PostGalleryProps) {
+const Base: ForwardRefRenderFunction<HTMLDivElement, PostGalleryProps> = (
+  {
+    commentsCount,
+    featuredPhotoUrl,
+    photosCount,
+    likesCount,
+    style,
+    className,
+  },
+  ref
+) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { width = "293px", height = "293px", ...rest } = style || {};
@@ -29,6 +37,7 @@ export function PostGallery({
       className={className}
       style={{ width, height, ...rest }}
       isLoading={isLoading}
+      ref={ref}
     >
       <Image
         src={featuredPhotoUrl}
@@ -41,4 +50,6 @@ export function PostGallery({
       {photosCount > 1 && <GalleyIcon />}
     </Container>
   );
-}
+};
+
+export const PostGallery = forwardRef(Base);

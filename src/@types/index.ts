@@ -92,3 +92,8 @@ export type Conversation = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type Pagination<T> = {
+  haveMore: boolean;
+  data: T;
+};
