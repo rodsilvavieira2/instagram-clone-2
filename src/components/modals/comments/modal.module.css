@@ -1,0 +1,18 @@
+.commentsModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999999999;
+
+  background-color: rgba(0, 0, 0, 0.65);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.commentsContainerModal {
+  height: 100vh;
+  width: 100vw;
+
+  padding: 24px 64px;
+}
