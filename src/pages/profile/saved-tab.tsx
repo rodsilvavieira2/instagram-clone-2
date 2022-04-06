@@ -21,7 +21,6 @@ export default function SavedTabSection() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log("saved");
     dispatch(setCurrentProfilePage("saved"));
   }, [dispatch, setCurrentProfilePage]);
 

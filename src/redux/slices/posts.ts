@@ -16,7 +16,7 @@ export const postsSlice = createSlice({
     builder.addMatcher(
       postsApi.endpoints.getPosts.matchFulfilled,
       (state, action) => {
-        postsAdapter.setAll(state, action.payload.data);
+        postsAdapter.addMany(state, action.payload.data);
       }
     );
   },

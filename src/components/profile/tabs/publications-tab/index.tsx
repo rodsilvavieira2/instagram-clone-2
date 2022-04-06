@@ -6,15 +6,22 @@ import { Container } from "./styles";
 type PublicationTabProps = {
   items: PublicationItem[];
   isLoading: boolean;
+  onOpenPost: (id: string) => void;
 };
 
-export function PublicationTab({ items, isLoading }: PublicationTabProps) {
+export function PublicationTab({
+  items,
+  isLoading,
+  onOpenPost,
+}: PublicationTabProps) {
   if (isLoading) return <LoadingTab />;
 
   return (
     <Container>
       {items.length !== 0 ? (
-        items.map((item) => <PostGallery key={item.id} {...item} />)
+        items.map((item) => (
+          <PostGallery key={item.id} {...item} onOpenPost={onOpenPost} />
+        ))
       ) : (
         <EmptyList
           heading="Publicações"

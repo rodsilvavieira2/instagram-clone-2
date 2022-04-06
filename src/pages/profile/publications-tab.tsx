@@ -1,9 +1,12 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { PublicationTab } from "../../components";
 import { useGetPublicationsQuery } from "../../redux/api/profile";
-import { setCurrentProfilePage } from "../../redux/slices";
+import {
+  setCommentsModalInfo,
+  setCurrentProfilePage,
+} from "../../redux/slices";
 import { useAppDispatch } from "../../redux/store";
 
 type PublicationsTabSectionParams = {
@@ -21,6 +24,10 @@ export default function PublicationsTabSection() {
     appDispatch(setCurrentProfilePage("publication"));
   }, [appDispatch, setCurrentProfilePage]);
 
+  const onOpenPost = useCallback((id: string) => {
+    appDispatch(setCommentsModalInfo({ isOpen: true, publicationId: id }));
+  }, []);
+
   const transformedData = useMemo(() => {
     return data.map((item) => {
       return {
@@ -31,5 +38,11 @@ export default function PublicationsTabSection() {
     });
   }, [data]);
 
-  return <PublicationTab isLoading={isLoading} items={transformedData} />;
+  return (
+    <PublicationTab
+      isLoading={isLoading}
+      items={transformedData}
+      onOpenPost={onOpenPost}
+    />
+  );
 }

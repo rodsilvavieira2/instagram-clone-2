@@ -6,9 +6,13 @@ import {
   useGetCommentsQuery,
   useAddCommentMutation,
 } from "../../../redux/api/comments";
-import { useToggleLikeMutation } from "../../../redux/api/posts";
+import {
+  useGetPostMutation,
+  useToggleLikeMutation,
+} from "../../../redux/api/posts";
 import { selectPostById } from "../../../redux/slices";
 import { useAppSelector } from "../../../redux/store";
+import { Skeleton } from "../../animations";
 import { PostActions } from "../../post/post-actions";
 import { PostComment } from "../../post/post-comment";
 import { PostCommentInput } from "../../post/post-comment-input";
@@ -20,6 +24,8 @@ import { CloseButton, scaleDownAnimation } from "../shared";
 import { CommentModalDescription } from "./comment-modal-description";
 import { Loading } from "./loading";
 import styles from "./modal.module.css";
+import { PostHeaderSkeleton } from "./post-header-skeleton";
+import { PostInfoSkeleton } from "./post-info-skeleton";
 import {
   Container,
   PhotoSection,
@@ -53,6 +59,7 @@ function ModalRender({ postID }: ModalRenderProps) {
 
   const [addComment] = useAddCommentMutation();
   const [togglePostLike] = useToggleLikeMutation();
+  const [getPost, data] = useGetPostMutation();
 
   const {
     user,
@@ -61,7 +68,13 @@ function ModalRender({ postID }: ModalRenderProps) {
     likesCount = 0,
     whoLiked = [],
     gallery = [],
-  } = postData || {};
+  } = postData || data.data || {};
+
+  useEffect(() => {
+    if (!postData) {
+      getPost({ postID });
+    }
+  }, [postData]);
 
   const { avatarUrl = "", userName = "", id: userID = "" } = user || {};
 
@@ -90,56 +103,81 @@ function ModalRender({ postID }: ModalRenderProps) {
         }}
       >
         <PhotoSection>
-          <PostGallery items={gallery} />
+          {postData || data.data ? (
+            <PostGallery items={gallery} />
+          ) : (
+            <Skeleton style={{ width: "100%", height: "100%" }} />
+          )}
         </PhotoSection>
 
         <CommentsSection>
           <InnerCommentsSection>
-            <PostHeader
-              userName={userName}
-              avatarUrl={avatarUrl}
-              onMore={() => console.log("more")}
-            />
+            {postData || data.data ? (
+              <PostHeader
+                userName={userName}
+                avatarUrl={avatarUrl}
+                onMore={() => console.log("more")}
+              />
+            ) : (
+              <PostHeaderSkeleton />
+            )}
 
             <CommentListWrapper>
-              <CommentModalDescription
-                avatarUrl={avatarUrl}
-                description={description}
-                userName={userName}
-                createdAt={createdAt}
-              />
+              {postData ||
+                (data.data && (
+                  <>
+                    <CommentModalDescription
+                      avatarUrl={avatarUrl}
+                      description={description}
+                      userName={userName}
+                      createdAt={createdAt}
+                    />
 
-              <CommentsList>
-                {isLoadingComments ? (
-                  <Loading />
-                ) : (
-                  comments.map((comment) => (
-                    <li key={comment.id}>
-                      <PostComment {...comment} />
-                    </li>
-                  ))
-                )}
-              </CommentsList>
+                    <CommentsList>
+                      {isLoadingComments ? (
+                        <Loading />
+                      ) : (
+                        comments.map((comment) => (
+                          <li key={comment.id}>
+                            <PostComment {...comment} />
+                          </li>
+                        ))
+                      )}
+                    </CommentsList>
+                  </>
+                ))}
             </CommentListWrapper>
 
-            <PostActions
-              onOpenComments={handleOnOpenComments}
-              onToggleLike={onToggleLike}
-              isLiked={iLiked()}
-            />
+            {postData || data.data ? (
+              <>
+                <PostActions
+                  onOpenComments={handleOnOpenComments}
+                  onToggleLike={onToggleLike}
+                  isLiked={iLiked()}
+                />
 
-            <PostLikes>{likesCount}</PostLikes>
+                <PostLikes>{likesCount}</PostLikes>
 
-            <PostFromDate style={{ padding: "0 16px", marginBottom: "16px" }}>
-              {createdAt}
-            </PostFromDate>
+                <PostFromDate
+                  style={{ padding: "0 16px", marginBottom: "16px" }}
+                >
+                  {createdAt}
+                </PostFromDate>
 
-            <PostCommentInput
-              onComment={async ({ comment }) => {
-                await addComment({ comment, postID, userID: user?.id ?? "" });
-              }}
-              ref={messageInputRef}
-            />
+                <PostCommentInput
+                  onComment={async ({ comment }) => {
+                    await addComment({
+                      comment,
+                      postID,
+                      userID: user?.id ?? "",
+                    });
+                  }}
+                  ref={messageInputRef}
+                />
+              </>
+            ) : (
+              <PostInfoSkeleton />
+            )}
           </InnerCommentsSection>
         </CommentsSection>
       </Container>

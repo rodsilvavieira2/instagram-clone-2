@@ -6,18 +6,20 @@ import {
 } from "react";
 
 import { PublicationStatus } from "./publication-status";
-import { Container, Image, GalleyIcon } from "./styles";
+import { Container, Image, GalleyIcon, InnerContainer } from "./styles";
 
 type PostGalleryProps = {
+  id: string;
   commentsCount: number;
   featuredPhotoUrl: string;
   photosCount: number;
   likesCount: number;
   style?: CSSProperties;
   className?: string;
+  onOpenPost?: (id: string) => void;
 };
 
-const Base: ForwardRefRenderFunction<HTMLDivElement, PostGalleryProps> = (
+const Base: ForwardRefRenderFunction<HTMLButtonElement, PostGalleryProps> = (
   {
     commentsCount,
     featuredPhotoUrl,
@@ -25,6 +27,8 @@ const Base: ForwardRefRenderFunction<HTMLDivElement, PostGalleryProps> = (
     likesCount,
     style,
     className,
+    onOpenPost,
+    id,
   },
   ref
 ) => {
@@ -36,18 +40,20 @@ const Base: ForwardRefRenderFunction<HTMLDivElement, PostGalleryProps> = (
     <Container
       className={className}
       style={{ width, height, ...rest }}
-      isLoading={isLoading}
       ref={ref}
+      onClick={() => onOpenPost?.(id)}
     >
-      <Image
-        src={featuredPhotoUrl}
-        alt="foto em destaque"
-        onLoad={() => setIsLoading(false)}
-      />
+      <InnerContainer isLoading={isLoading}>
+        <Image
+          src={featuredPhotoUrl}
+          alt="foto em destaque"
+          onLoad={() => setIsLoading(false)}
+        />
 
-      <PublicationStatus likes={likesCount} commentsCount={commentsCount} />
+        <PublicationStatus likes={likesCount} commentsCount={commentsCount} />
 
-      {photosCount > 1 && <GalleyIcon />}
+        {photosCount > 1 && <GalleyIcon />}
+      </InnerContainer>
     </Container>
   );
 };
