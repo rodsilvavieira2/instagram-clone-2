@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { BaseButton } from "@components/buttons";
+import { BaseButton } from "../buttons";
 
 export const Container = styled.section`
   display: flex;

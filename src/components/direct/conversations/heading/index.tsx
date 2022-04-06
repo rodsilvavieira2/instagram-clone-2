@@ -1,5 +1,4 @@
-import { InstagramEdit } from "@icons";
-
+import { InstagramEdit } from "../../../../icons";
 import { Container, UserName, Spacer, EditButton } from "./styles";
 
 export function Heading() {

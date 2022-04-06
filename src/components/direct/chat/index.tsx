@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-import { User } from "@types";
-
+import { User } from "../../../@types";
 import { ChatInfo } from "./chat-info";
 import { InputMessage } from "./input-message";
 import { Message, MessageProps } from "./message";

@@ -1,5 +1,4 @@
-import { Skeleton } from "@components/animations";
-
+import { Skeleton } from "../../../animations";
 import { Container, Info } from "./styles";
 
 export function ConversationSkeleton() {

@@ -1,5 +1,4 @@
-import { InstagramHeart } from "@icons";
-
+import { InstagramHeart } from "../../../../../icons";
 import { Container } from "./styles";
 
 export function HeartInput() {

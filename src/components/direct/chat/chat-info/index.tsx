@@ -1,8 +1,7 @@
-import { Avatar } from "@components/avatar";
-import { InstagramInfo, InstagramInfoFill } from "@icons";
-import { User } from "@types";
-import { fromDate } from "@util";
-
+import { User } from "../../../../@types";
+import { InstagramInfoFill, InstagramInfo } from "../../../../icons";
+import { fromDate } from "../../../../util";
+import { Avatar } from "../../../avatar";
 import {
   Container,
   AvatarWrapper,

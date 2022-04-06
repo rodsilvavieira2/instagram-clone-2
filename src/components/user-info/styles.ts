@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { BaseButton } from "@components";
+import { BaseButton } from "../buttons";
 
 export const Container = styled.div`
   display: flex;

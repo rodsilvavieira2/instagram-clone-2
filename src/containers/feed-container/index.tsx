@@ -1,15 +1,9 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useCallback, useEffect, useState } from "react";
-import {
-  AutoSizer,
-  List,
-  ListRowProps,
-  ListRowRenderer,
-} from "react-virtualized";
 import { v4 as uuidV4 } from "uuid";
 
 import { Post as PostType } from "../../@types";
-import { PostProps, Post, Spinner } from "../../components";
+import { Post, Spinner } from "../../components";
 import { PostSkeleton } from "../../components/post/post-skeleton";
 import { useInfinityScrollTrigger } from "../../hooks";
 import { useAddCommentMutation } from "../../redux/api/comments";
@@ -74,7 +68,7 @@ export const FeedContainer = () => {
   const [lastVideo] = useInfinityScrollTrigger({
     handler: () => {
       if (!isFetching && data.haveMore) {
-        console.log("more pages");
+        setCurrentPage((prev) => prev + 1);
       }
     },
   });
@@ -95,34 +89,17 @@ export const FeedContainer = () => {
         skeletons
       ) : (
         <>
-          {data.data.map((item) => (
+          {currentItems.map((item, i) => (
             <li key={item.id}>
-              <AutoSizer>
-                {({ height, width }) => (
-                  <List
-                    height={height}
-                    width={width}
-                    rowCount={data.data.length}
-                    rowHeight={30}
-                    rowRenderer={({ index, key, style }) => {
-                      const postData = data.data[index];
-
-                      return (
-                        <Post
-                          {...postData}
-                          key={key}
-                          style={style}
-                          onComment={onComment}
-                          currentUserId={userID}
-                          onOpenComments={onOpenComments}
-                          onToggleLike={onToggleLike}
-                          onMoreOptions={onMoreOptions}
-                        />
-                      );
-                    }}
-                  />
-                )}
-              </AutoSizer>
+              <Post
+                {...item}
+                onComment={onComment}
+                currentUserId={userID}
+                onOpenComments={onOpenComments}
+                onToggleLike={onToggleLike}
+                onMoreOptions={onMoreOptions}
+                ref={i + 1 === currentItems.length ? lastVideo : undefined}
+              />
             </li>
           ))}
         </>

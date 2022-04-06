@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { InstagramHorizontalMore } from "@icons";
+import { InstagramHorizontalMore } from "../../../icons";
 
 export const Container = styled.div`
   display: flex;

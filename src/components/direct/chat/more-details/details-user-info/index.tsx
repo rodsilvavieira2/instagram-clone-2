@@ -1,6 +1,5 @@
-import { Avatar } from "@components/avatar";
-import { User } from "@types";
-
+import { User } from "../../../../../@types";
+import { Avatar } from "../../../../avatar";
 import {
   Container,
   InfoWrapper,

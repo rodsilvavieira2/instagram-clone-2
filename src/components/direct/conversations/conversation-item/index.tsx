@@ -1,7 +1,6 @@
-import { Avatar } from "@components/avatar";
-import { User } from "@types";
-import { fromDate } from "@util";
-
+import { User } from "../../../../@types";
+import { fromDate } from "../../../../util";
+import { Avatar } from "../../../avatar";
 import {
   Container,
   SubName,

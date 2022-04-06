@@ -13,7 +13,7 @@ import {
 } from "./styles";
 import { SuggestionItem, SuggestionItemProps } from "./suggestion-item";
 
-export type SuggestionItem = Omit<SuggestionItemProps, "onRemove">;
+export type SuggestionItem = Omit<SuggestionItemProps, "onRemove" | "onClose">;
 
 type RecentSuggestionsProps = {
   items: SuggestionItem[];

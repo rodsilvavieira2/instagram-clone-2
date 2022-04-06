@@ -1,6 +1,7 @@
-import { BaseButton } from "components/buttons";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
+import { BaseButton } from "../../../buttons";
 
 export const Container = styled.div`
   padding: 6px 4px;

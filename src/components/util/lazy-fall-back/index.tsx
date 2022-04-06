@@ -1,5 +1,4 @@
-import { Spinner } from "@components";
-
+import { Spinner } from "../../animations";
 import { Container } from "./styles";
 
 export function LazyFallBack() {

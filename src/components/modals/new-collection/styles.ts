@@ -1,8 +1,8 @@
-import { BaseButton } from "components/buttons";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-import { InstagramClose } from "@icons";
+import { InstagramClose } from "../../../icons";
+import { BaseButton } from "../../buttons";
 
 export const Container = styled(motion.div)`
   background-color: ${(props) => props.theme.colors.primary};

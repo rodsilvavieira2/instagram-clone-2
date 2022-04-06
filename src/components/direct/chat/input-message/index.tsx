@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { EmojiSelector } from "@components/post/post-comment-input/emoji-selector";
-
+import { EmojiSelector } from "../../../post/post-comment-input/emoji-selector";
 import { HeartInput } from "./heart-input";
 import { ImageInput } from "./image-input";
 import {
