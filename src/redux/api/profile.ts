@@ -3,6 +3,7 @@ import { baseApi } from "./base";
 
 type GetByUserName = {
   userName: string;
+  page?: number;
 };
 
 type GetSavedParams = {
@@ -17,12 +18,21 @@ export const profileApi = baseApi.injectEndpoints({
         result ? [{ type: "users", id: result.id }] : [],
       transformResponse: (result: User[]) => result[0],
     }),
-    getPublications: builder.query<Post[], GetByUserName>({
-      query: ({ userName }) => `/posts?user.userName=${userName}`,
+    getPublications: builder.query<Pagination<Post[]>, GetByUserName>({
+      query: ({ userName, page = 1 }) =>
+        `/posts?user.userName=${userName}&_page=${page}&_limit=10`,
+      transformResponse: (response: Post[], meta) => {
+        const haveMore = !!meta?.response?.headers.get("Link");
+
+        return {
+          haveMore,
+          data: response,
+        };
+      },
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({
+              ...result.data.map(({ id }) => ({
                 type: "profile_publications" as const,
                 id,
               })),

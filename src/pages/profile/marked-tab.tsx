@@ -13,19 +13,20 @@ type MarkedTabParams = {
 export default function MarkedTabSection() {
   const { userName = "" } = useParams<MarkedTabParams>();
 
-  const { data = [], isLoading } = useGetPublicationsQuery({ userName });
+  const { data = { data: [], haveMore: false }, isLoading } =
+    useGetPublicationsQuery({ userName });
 
   const dispatch = useAppDispatch();
 
   const transformedData = useMemo(() => {
-    return data.map((item) => {
+    return data.data.map((item) => {
       return {
         ...item,
         featuredPhotoUrl: item.gallery[0].url,
         photosCount: item.gallery.length,
       };
     });
-  }, [data]);
+  }, [data.data]);
 
   useEffect(() => {
     dispatch(setCurrentProfilePage("marked"));
