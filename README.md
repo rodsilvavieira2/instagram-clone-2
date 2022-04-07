@@ -2,6 +2,9 @@
 
 Um clone utilizando a tecnoliga React.js
 
+## Netlify Deploy
+[deploy](https://lighthearted-horse-65bbcb.netlify.app/)
+
 ## Tecnologia Utilizadas 
 - [React](https://pt-br.reactjs.org/)
 - [Redux](https://redux.js.org/)
