@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { Container, LazyFallBack, Footer } from "./components";
+import { Container, LazyFallBack, Footer, Chat } from "./components";
+import { InitialChatMessage } from "./components/direct/chat/initial-message";
 import { HeaderContainer, ModalsContainer } from "./containers";
 import { MainLayout } from "./layouts";
 import {
@@ -13,6 +14,7 @@ import {
   PublicationTabSection,
   SavedTabSection,
   MarkedTabSection,
+  DirectPage,
 } from "./pages";
 
 export const App = () => {
@@ -26,12 +28,18 @@ export const App = () => {
             <Route path="/" element={<MainLayout />}>
               <Route index element={<HomePage />} />
 
+              <Route path="explore" element={<ExplorePage />} />
+
+              <Route path="direct/inbox" element={<DirectPage />}>
+                <Route index element={<InitialChatMessage />} />
+
+                <Route path=":chatID" element={<Chat />} />
+              </Route>
+
               <Route
                 path="/:userName/saved/:collectionName"
                 element={<SavedPage />}
               />
-
-              <Route path="explore" element={<ExplorePage />} />
 
               <Route path="/suggestions" element={<SuggestionsPage />} />
             </Route>

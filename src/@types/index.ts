@@ -67,20 +67,10 @@ export type Saved = {
 
 export type Status = Pick<User, "id" | "avatarUrl" | "userName">;
 
-type ConversationMessage = {
-  id: string;
-  whoSentID: string;
-  message: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export type Conversation = {
-  id: string;
-  participants: User[];
-  messages: ConversationMessage[];
-  createdAt: Date;
-  updatedAt: Date;
+export type Conversation = Pick<User, "avatarUrl" | "subName" | "id"> & {
+  lastOnline: Date;
+  isOnline: boolean;
+  path: string;
 };
 
 export type Pagination<T> = {

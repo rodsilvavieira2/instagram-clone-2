@@ -1,3 +1,6 @@
+import { forwardRef, ForwardRefRenderFunction } from "react";
+import { useParams } from "react-router-dom";
+
 import { User } from "../../../../@types";
 import { fromDate } from "../../../../util";
 import { Avatar } from "../../../avatar";
@@ -17,20 +20,23 @@ export type ConversationItemProps = Pick<
 > & {
   lastOnline: Date;
   isOnline: boolean;
-  isActive: boolean;
   path: string;
 };
 
-export function ConversationItem({
-  avatarUrl,
-  isOnline,
-  lastOnline,
-  isActive,
-  path,
-  subName,
-}: ConversationItemProps) {
+type ConversationItemParams = {
+  chatID: string;
+};
+
+const Base: ForwardRefRenderFunction<HTMLDivElement, ConversationItemProps> = (
+  { id, avatarUrl, isOnline, lastOnline, path, subName },
+  ref
+) => {
+  const { chatID } = useParams<ConversationItemParams>();
+
+  const isActive = chatID === id;
+
   return (
-    <Container isActive={isActive}>
+    <Container isActive={isActive} ref={ref}>
       <InnerContainer to={path}>
         <AvatarWrapper>
           <Avatar src={avatarUrl} alt={subName} size="large" />
@@ -50,4 +56,6 @@ export function ConversationItem({
       </InnerContainer>
     </Container>
   );
-}
+};
+
+export const ConversationItem = forwardRef(Base);

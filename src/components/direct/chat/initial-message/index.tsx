@@ -6,11 +6,7 @@ import {
   SentMessage,
 } from "./styles";
 
-type InitialMessageProps = {
-  onSetMessage: () => void;
-};
-
-export function InitialMessage({ onSetMessage }: InitialMessageProps) {
+export function InitialChatMessage() {
   return (
     <Container>
       <DirectIcon />
@@ -21,7 +17,7 @@ export function InitialMessage({ onSetMessage }: InitialMessageProps) {
         Envie fotos e mensagens privadas para um amigo ou grupo.
       </SubHeading>
 
-      <SentMessage onClick={onSetMessage}>Enviar mensagem</SentMessage>
+      <SentMessage>Enviar mensagem</SentMessage>
     </Container>
   );
 }

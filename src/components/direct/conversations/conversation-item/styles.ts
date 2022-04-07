@@ -6,9 +6,21 @@ type ContainerProps = {
 };
 
 export const Container = styled.div<ContainerProps>`
-  ${(props) => {
-    return props.isActive ? props.theme.colors.background : "transparent";
-  }}
+  background-color: ${(props) => {
+    return props.isActive ? props.theme.colors.shape : "transparent";
+  }};
+
+  &:hover {
+    background-color: ${(props) => {
+      return props.isActive
+        ? props.theme.colors.shape
+        : props.theme.colors.background;
+    }};
+  }
+
+  cursor: ${(props) => {
+    return props.isActive ? "grab" : "pointer";
+  }};
 `;
 
 export const InnerContainer = styled(Link)`
@@ -18,10 +30,6 @@ export const InnerContainer = styled(Link)`
   color: inherit;
   text-decoration: none;
   padding: 8px 20px;
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.background};
-  }
 `;
 
 export const SubName = styled.p``;

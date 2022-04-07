@@ -27,3 +27,4 @@ export * from "./galley-image";
 export * from "./info";
 export * from "./info-fill";
 export * from "./explore-fill";
+export * from "./message-fill";

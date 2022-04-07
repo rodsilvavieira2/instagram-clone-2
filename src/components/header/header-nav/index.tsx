@@ -1,7 +1,11 @@
 import { useLocation } from "react-router-dom";
 
 import { User } from "../../../@types";
-import { InstagramHomeFill, InstagramExploreFill } from "../../../icons";
+import {
+  InstagramHomeFill,
+  InstagramExploreFill,
+  InstagramMessageFill,
+} from "../../../icons";
 import { ActiveLink } from "./active-link";
 import { AvatarMenu } from "./avatar-menu";
 import {
@@ -29,9 +33,12 @@ export function HeaderNav({ avatarUrl, subName }: HeaderNavProps) {
         path="/"
       />
 
-      <StyledLink to="/direct/inbox">
-        <MessageIcon />
-      </StyledLink>
+      <ActiveLink
+        icon={<MessageIcon />}
+        activeIcon={<InstagramMessageFill />}
+        currentPath={pathname}
+        path="/direct/inbox"
+      />
 
       <StyledLink to="/explore">
         <PublicationIcon />

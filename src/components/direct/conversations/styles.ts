@@ -9,6 +9,8 @@ export const Container = styled.div`
 
   overflow: hidden;
 
+  flex-shrink: 0;
+
   border-right: 1px solid ${(props) => props.theme.colors.border};
 `;
 
