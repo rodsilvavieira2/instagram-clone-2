@@ -6,11 +6,16 @@ import { useAppSelector } from "../../redux/store";
 export function HeaderContainer() {
   const currentUser = useAppSelector(selectCurrentUser);
 
-  const { avatarUrl = "", subName = "" } = currentUser || {};
+  const { avatarUrl = "", subName = "", userName = "" } = currentUser || {};
 
   const { data = [] } = useGetSuggestionsQuery(undefined);
 
   return (
-    <Header subName={subName} avatarUrl={avatarUrl} searchSuggestions={data} />
+    <Header
+      userName={userName}
+      subName={subName}
+      avatarUrl={avatarUrl}
+      searchSuggestions={data}
+    />
   );
 }

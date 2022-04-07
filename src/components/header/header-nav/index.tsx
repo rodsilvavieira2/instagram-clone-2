@@ -1,11 +1,7 @@
 import { useLocation } from "react-router-dom";
 
 import { User } from "../../../@types";
-import {
-  InstagramHomeFill,
-  InstagramExploreFill,
-  InstagramMessageFill,
-} from "../../../icons";
+import { InstagramHomeFill, InstagramExploreFill } from "../../../icons";
 import { ActiveLink } from "./active-link";
 import { AvatarMenu } from "./avatar-menu";
 import {
@@ -13,15 +9,14 @@ import {
   ExploreIcon,
   HeartIcon,
   HomeIcon,
-  MessageIcon,
   PublicationIcon,
   Button,
   StyledLink,
 } from "./styles";
 
-type HeaderNavProps = Pick<User, "avatarUrl" | "subName">;
+type HeaderNavProps = Pick<User, "avatarUrl" | "subName" | "userName">;
 
-export function HeaderNav({ avatarUrl, subName }: HeaderNavProps) {
+export function HeaderNav({ avatarUrl, subName, userName }: HeaderNavProps) {
   const { pathname } = useLocation();
 
   return (
@@ -32,14 +27,6 @@ export function HeaderNav({ avatarUrl, subName }: HeaderNavProps) {
         currentPath={pathname}
         path="/"
       />
-
-      <ActiveLink
-        icon={<MessageIcon />}
-        activeIcon={<InstagramMessageFill />}
-        currentPath={pathname}
-        path="/direct/inbox"
-      />
-
       <StyledLink to="/explore">
         <PublicationIcon />
       </StyledLink>
@@ -55,7 +42,7 @@ export function HeaderNav({ avatarUrl, subName }: HeaderNavProps) {
         <HeartIcon />
       </Button>
 
-      <AvatarMenu avatarUrl={avatarUrl} subName={subName} />
+      <AvatarMenu avatarUrl={avatarUrl} subName={subName} userName={userName} />
     </Container>
   );
 }

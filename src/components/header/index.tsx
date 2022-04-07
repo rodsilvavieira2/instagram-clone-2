@@ -11,11 +11,16 @@ import {
   NavWrapper,
 } from "./styles";
 
-type HeaderProps = Pick<User, "avatarUrl" | "subName"> & {
+type HeaderProps = Pick<User, "avatarUrl" | "subName" | "userName"> & {
   searchSuggestions: SuggestionItem[];
 };
 
-export function Header({ avatarUrl, subName, searchSuggestions }: HeaderProps) {
+export function Header({
+  avatarUrl,
+  subName,
+  searchSuggestions,
+  userName,
+}: HeaderProps) {
   return (
     <Container>
       <InnerContainer>
@@ -28,7 +33,11 @@ export function Header({ avatarUrl, subName, searchSuggestions }: HeaderProps) {
         </InputWrapper>
 
         <NavWrapper>
-          <HeaderNav avatarUrl={avatarUrl} subName={subName} />
+          <HeaderNav
+            avatarUrl={avatarUrl}
+            subName={subName}
+            userName={userName}
+          />
         </NavWrapper>
       </InnerContainer>
     </Container>

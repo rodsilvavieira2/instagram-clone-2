@@ -6,9 +6,9 @@ import { Avatar } from "../../../avatar";
 import { MenuWrapper } from "./menu-wrapper";
 import { Container, MenuButton } from "./styles";
 
-type AvatarMenuProps = Pick<User, "avatarUrl" | "subName">;
+type AvatarMenuProps = Pick<User, "avatarUrl" | "subName" | "userName">;
 
-export function AvatarMenu({ avatarUrl, subName }: AvatarMenuProps) {
+export function AvatarMenu({ avatarUrl, subName, userName }: AvatarMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   function onToggle() {
@@ -29,7 +29,7 @@ export function AvatarMenu({ avatarUrl, subName }: AvatarMenuProps) {
       </MenuButton>
 
       <AnimatePresence>
-        {isOpen && <MenuWrapper onClose={onToggle} />}
+        {isOpen && <MenuWrapper onClose={onToggle} userName={userName} />}
       </AnimatePresence>
     </Container>
   );

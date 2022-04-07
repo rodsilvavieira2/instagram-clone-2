@@ -3,14 +3,13 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 import { baseApi } from "./api/base";
-import { macroUserActionsSlice, postsSlice, userSlice } from "./slices";
+import { macroUserActionsSlice, userSlice } from "./slices";
 
 export const store = configureStore({
   reducer: {
     macroUserActions: macroUserActionsSlice.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
     [userSlice.name]: userSlice.reducer,
-    [postsSlice.name]: postsSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

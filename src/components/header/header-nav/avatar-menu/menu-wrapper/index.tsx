@@ -9,13 +9,15 @@ import {
 } from "../../../../../icons";
 import { variants } from "./config";
 import { MenuButton } from "./menu-button";
+import { MenuLinkButton } from "./menu-link-button";
 import { Container, MenuDivider, InnerContainer } from "./styles";
 
 type MenuWrapperProps = {
   onClose: () => void;
+  userName: string;
 };
 
-export function MenuWrapper({ onClose }: MenuWrapperProps) {
+export function MenuWrapper({ onClose, userName }: MenuWrapperProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick({
@@ -31,13 +33,22 @@ export function MenuWrapper({ onClose }: MenuWrapperProps) {
         animate="animate"
         exit="exit"
       >
-        <MenuButton icon={<InstagramUserCircler />}>Perfil</MenuButton>
+        <MenuLinkButton to={`/${userName}`}>
+          <InstagramUserCircler />
+          Perfil
+        </MenuLinkButton>
 
-        <MenuButton icon={<InstagramSave />}>Salvos</MenuButton>
+        <MenuLinkButton to={`/${userName}/saved`}>
+          <InstagramSave /> Salvos
+        </MenuLinkButton>
 
-        <MenuButton icon={<InstagramSettings />}>Configurações</MenuButton>
+        <MenuButton>
+          <InstagramSettings /> Configurações
+        </MenuButton>
 
-        <MenuButton icon={<InstagramRefresh />}>Trocar de conta</MenuButton>
+        <MenuButton>
+          <InstagramRefresh /> Trocar de conta
+        </MenuButton>
 
         <MenuDivider />
 

@@ -14,4 +14,3 @@ export * from "./footer";
 export * from "./suggestions";
 export * from "./static-loading-full-window";
 export * from "./post";
-export * from "./direct";

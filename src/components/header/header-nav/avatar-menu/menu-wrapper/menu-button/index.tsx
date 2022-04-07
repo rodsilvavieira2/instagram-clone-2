@@ -2,14 +2,8 @@ import React, { HTMLAttributes } from "react";
 
 import { Container } from "./styles";
 
-type MenuButtonProps = HTMLAttributes<HTMLButtonElement> & {
-  icon?: React.ReactNode;
-};
+type MenuButtonProps = HTMLAttributes<HTMLButtonElement>;
 
-export function MenuButton({ children, icon, ...props }: MenuButtonProps) {
-  return (
-    <Container {...props}>
-      {icon} {children}
-    </Container>
-  );
+export function MenuButton({ children, ...props }: MenuButtonProps) {
+  return <Container {...props}>{children}</Container>;
 }
