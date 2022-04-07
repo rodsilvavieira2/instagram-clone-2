@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { Explore as ExploreType } from "../../@types";
+import { Post } from "../../@types";
 import { Spinner, PostGallery } from "../../components";
 import { useInfinityScrollTrigger } from "../../hooks";
 import { useGetExploreQuery } from "../../redux/api/explore";
+import { setCommentsModalInfo } from "../../redux/slices";
+import { useAppDispatch } from "../../redux/store";
 import { ExploreLoading } from "./explore-loading";
 import { Container, InnerContainer, LoadingContainer } from "./styles";
 
 export default function Explore() {
-  const [currentItems, setCurrentItems] = useState<ExploreType[]>([]);
+  const [currentItems, setCurrentItems] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const {
@@ -23,6 +25,17 @@ export default function Explore() {
     }
   }, [explore.data]);
 
+  const dispatch = useAppDispatch();
+
+  const onOpenComments = useCallback((id: string) => {
+    dispatch(
+      setCommentsModalInfo({
+        isOpen: true,
+        publicationId: id,
+      })
+    );
+  }, []);
+
   const [lastRefExploreItem] = useInfinityScrollTrigger({
     handler: () => {
       if (!isFetching && explore.haveMore) {
@@ -30,6 +43,16 @@ export default function Explore() {
       }
     },
   });
+
+  const transformedData = useMemo(() => {
+    return currentItems.map((item) => {
+      return {
+        ...item,
+        featuredPhotoUrl: item.gallery[0].url,
+        photosCount: item.gallery.length,
+      };
+    });
+  }, [currentItems]);
 
   return (
     <Container>
@@ -39,9 +62,10 @@ export default function Explore() {
         </LoadingContainer>
       ) : (
         <InnerContainer>
-          {currentItems.map((item, i) => (
+          {transformedData.map((item, i) => (
             <PostGallery
               className={i % 2 === 0 ? "grid-tall" : "grid-wide"}
+              onOpenPost={onOpenComments}
               ref={
                 i + 1 === currentItems.length ? lastRefExploreItem : undefined
               }

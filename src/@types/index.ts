@@ -10,16 +10,6 @@ export type User = {
   updatedAt: Date;
 };
 
-export type Explore = {
-  id: string;
-  commentsCount: number;
-  featuredPhotoUrl: string;
-  photosCount: number;
-  likesCount: number;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 export type Comment = {
   id: string;
   comment: string;

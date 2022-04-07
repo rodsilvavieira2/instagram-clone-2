@@ -1,11 +1,11 @@
-import { Explore, Pagination } from "../../@types";
+import { Pagination, Post } from "../../@types";
 import { baseApi } from "./base";
 
 type GetExploreParams = {
   page?: number;
 };
 
-type GetExploreResponse = Explore[];
+type GetExploreResponse = Post[];
 
 const exploreAPi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

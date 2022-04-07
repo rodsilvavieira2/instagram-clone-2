@@ -7,11 +7,9 @@ import {
   useAddCommentMutation,
 } from "../../../redux/api/comments";
 import {
-  useGetPostMutation,
+  useGetPostQuery,
   useToggleLikeMutation,
 } from "../../../redux/api/posts";
-import { selectPostById } from "../../../redux/slices";
-import { useAppSelector } from "../../../redux/store";
 import { Skeleton } from "../../animations";
 import { PostActions } from "../../post/post-actions";
 import { PostComment } from "../../post/post-comment";
@@ -55,28 +53,24 @@ function ModalRender({ postID }: ModalRenderProps) {
   const { data: comments = [], isLoading: isLoadingComments } =
     useGetCommentsQuery({ postID });
 
-  const postData = useAppSelector((state) => selectPostById(state, postID));
+  const { data: postDATA, isLoading: isLoadingPost } = useGetPostQuery({
+    postID,
+  });
 
   const [addComment] = useAddCommentMutation();
   const [togglePostLike] = useToggleLikeMutation();
-  const [getPost, data] = useGetPostMutation();
 
   const {
-    user,
-    createdAt = "",
-    description = "",
-    likesCount = 0,
     whoLiked = [],
+    userID = "",
+    user,
     gallery = [],
-  } = postData || data.data || {};
+    description = "",
+    createdAt = "",
+    likesCount = 0,
+  } = postDATA || {};
 
-  useEffect(() => {
-    if (!postData) {
-      getPost({ postID });
-    }
-  }, [postData]);
-
-  const { avatarUrl = "", userName = "", id: userID = "" } = user || {};
+  const { avatarUrl = "", userName = "" } = user || {};
 
   function handleOnOpenComments() {
     messageInputRef.current?.focus();
@@ -103,52 +97,53 @@ function ModalRender({ postID }: ModalRenderProps) {
         }}
       >
         <PhotoSection>
-          {postData || data.data ? (
-            <PostGallery items={gallery} />
-          ) : (
+          {isLoadingPost ? (
             <Skeleton style={{ width: "100%", height: "100%" }} />
+          ) : (
+            <PostGallery items={gallery} />
           )}
         </PhotoSection>
 
         <CommentsSection>
           <InnerCommentsSection>
-            {postData || data.data ? (
+            {isLoadingPost ? (
+              <PostHeaderSkeleton />
+            ) : (
               <PostHeader
                 userName={userName}
                 avatarUrl={avatarUrl}
                 onMore={() => console.log("more")}
               />
-            ) : (
-              <PostHeaderSkeleton />
             )}
 
             <CommentListWrapper>
-              {postData ||
-                (data.data && (
-                  <>
-                    <CommentModalDescription
-                      avatarUrl={avatarUrl}
-                      description={description}
-                      userName={userName}
-                      createdAt={createdAt}
-                    />
+              {!isLoadingPost && !isLoadingComments && (
+                <>
+                  <CommentModalDescription
+                    avatarUrl={avatarUrl}
+                    description={description}
+                    userName={userName}
+                    createdAt={createdAt}
+                  />
 
-                    <CommentsList>
-                      {isLoadingComments ? (
-                        <Loading />
-                      ) : (
-                        comments.map((comment) => (
-                          <li key={comment.id}>
-                            <PostComment {...comment} />
-                          </li>
-                        ))
-                      )}
-                    </CommentsList>
-                  </>
-                ))}
+                  <CommentsList>
+                    {isLoadingComments ? (
+                      <Loading />
+                    ) : (
+                      comments.map((comment) => (
+                        <li key={comment.id}>
+                          <PostComment {...comment} />
+                        </li>
+                      ))
+                    )}
+                  </CommentsList>
+                </>
+              )}
             </CommentListWrapper>
 
-            {postData || data.data ? (
+            {isLoadingPost ? (
+              <PostInfoSkeleton />
+            ) : (
               <>
                 <PostActions
                   onOpenComments={handleOnOpenComments}
@@ -175,8 +170,6 @@ function ModalRender({ postID }: ModalRenderProps) {
                   ref={messageInputRef}
                 />
               </>
-            ) : (
-              <PostInfoSkeleton />
             )}
           </InnerCommentsSection>
         </CommentsSection>

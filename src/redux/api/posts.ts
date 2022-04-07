@@ -39,11 +39,13 @@ export const postsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: "posts", id: "POST_LIST" }],
     }),
-    getPost: builder.mutation<Post, { postID: string }>({
+    getPost: builder.query<Post, { postID: string }>({
       query: ({ postID }) => `/posts/${postID}`,
+      providesTags: (result) =>
+        result ? [{ type: "posts" as const, id: result.id }] : [],
     }),
   }),
 });
 
-export const { useGetPostsQuery, useToggleLikeMutation, useGetPostMutation } =
+export const { useGetPostsQuery, useToggleLikeMutation, useGetPostQuery } =
   postsApi;

@@ -1,8 +1,12 @@
-import { Post, Saved, User } from "../../@types";
+import { Pagination, Post, Saved, User } from "../../@types";
 import { baseApi } from "./base";
 
 type GetByUserName = {
   userName: string;
+};
+
+type GetSavedParams = {
+  page?: number;
 };
 
 export const profileApi = baseApi.injectEndpoints({
@@ -32,8 +36,32 @@ export const profileApi = baseApi.injectEndpoints({
     getSaved: builder.query<Saved[], GetByUserName>({
       query: ({ userName }) => `/saved?user.userName=${userName}`,
     }),
+    getSavedCollection: builder.query<Pagination<Post[]>, GetSavedParams>({
+      query: ({ page = 1 }) => `/posts?_page=${page}&_limit=10`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map((item) => ({
+                type: "posts" as const,
+                id: item.id,
+              })),
+            ]
+          : [],
+      transformResponse: (response: Post[], meta) => {
+        const haveMore = !!meta?.response?.headers.get("Link");
+
+        return {
+          haveMore,
+          data: response,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetProfileQuery, useGetPublicationsQuery, useGetSavedQuery } =
-  profileApi;
+export const {
+  useGetProfileQuery,
+  useGetPublicationsQuery,
+  useGetSavedQuery,
+  useGetSavedCollectionQuery,
+} = profileApi;
