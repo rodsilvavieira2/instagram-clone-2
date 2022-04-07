@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable consistent-return */
 import { RefObject, useEffect, useRef } from "react";
 
 import { useCallbackRef } from "./use-callback-ref";
